@@ -7,7 +7,7 @@ const route = new express.Router()
 //register
 route.post("/signin", async (req, resp) => {
     try {
-        let user = new User({ ...req.body, admin: false }); //we are setting the req.body in the react fxn
+        let user = new User(req.body.admin?{ ...req.body}:{ ...req.body }); //we are setting the req.body in the react fxn
         const existence = await User.findOne({ email: user.email })
         if (existence) {
             resp.send({ error: 'Email already existing' })
@@ -46,13 +46,13 @@ route.post("/adminsignin", async (req, resp) => {
 route.post('/login', async (req, res) => {
     try {
         let user = await User.findByCredentials(req.body.email, req.body.password)
+        console.log(user.userType);
         if (user) {
             const token = await user.generateAuthToken()
             user = user.toObject() //convert to an object first
             delete user.password
             delete user.tokens
             res.send({ user, token })
-            console.log(user);
         } else { throw new Error('No user found') }
     } catch (e) {
         res.send({ InvalidCredentials: e.message })
@@ -120,7 +120,9 @@ route.get('/everyone',auth,async(req,res)=>{
     if(data){
         let newData=data.map(x=>{
             x=x.toObject()
-            return {name:x.name,admin:x.admin,userType:x.userType}
+            delete x.tokens
+            delete x.password
+            return x
         })
         res.send(newData)
     }else{throw new Error('No user')}

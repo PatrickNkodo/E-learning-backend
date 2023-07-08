@@ -24,8 +24,8 @@ const UserSchema = new dbConnect.Schema({
         type:String,
         required:true
     },
-    admin:{
-        type:Boolean,
+    userType:{
+        type:String,
         required:true,
     },
 	date:{

@@ -5,7 +5,7 @@ const courseSchema=new dbConnect.Schema({
     description:{type:String},
     instructorName:{type:String},
     instructorEmail:{type:String},
-    numberOfLessons:{type:Number},
+    numberOfLessons:{type:Number,default:0},
     studentsEnrolled:[
         {
             studentId: {
@@ -22,13 +22,12 @@ const courseSchema=new dbConnect.Schema({
             lessonTitle: {
                 type: String
             },
-            lessonContent:[
-                {
-                    tag:{type:String},
-                    classes:[{type:String}],
-                    content:{type:String}
-                }
-            ]
+            lessonContent:{
+                type:String
+            },
+            lessonNumber:{
+                type:Number
+            }
         }
     ],
     date:{

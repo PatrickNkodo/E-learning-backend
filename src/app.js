@@ -1,4 +1,3 @@
-function execute() {
 	const userRoute = require('./routers/userRoute');
 	const courseRoute = require('./routers/courseRoute');
 	const cors = require('cors');
@@ -32,5 +31,3 @@ function execute() {
     // Allow some methods
         res.header('Access-Control-Allow-Methods', 'GET, POST');
     */
-}
-module.exports = execute;
