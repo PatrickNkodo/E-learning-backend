@@ -28,6 +28,10 @@ const UserSchema = new dbConnect.Schema({
         type:String,
         required:true,
     },
+    description:{
+        type:String,
+        default:'Hey there, im a user of Learners E-learning platform'
+    },
 	date:{
 		type: Date,
 		default: Date.now,

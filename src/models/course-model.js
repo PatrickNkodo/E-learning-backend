@@ -1,39 +1,82 @@
-const mongoose= require('mongoose');
-const dbConnect=require('mongoose');
-const courseSchema=new dbConnect.Schema({
-    title:{type:String},
-    description:{type:String},
-    instructorName:{type:String},
-    instructorEmail:{type:String},
-    numberOfLessons:{type:Number,default:0},
-    studentsEnrolled:[
+const mongoose = require('mongoose');
+
+const answerOptionSchema = new mongoose.Schema({
+    answerText: {
+        type: String,
+    },
+    isCorrect: {
+        type: Boolean,
+    }
+});
+
+const quizQuestionSchema = new mongoose.Schema({
+    questionText: {
+        type: String,
+    },
+    answerOptions: {
+        type: [answerOptionSchema],
+    },
+    correctAnswer: {
+        type: Number,
+    }
+});
+
+const courseSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    instructorName: {
+        type: String,
+        required: true
+    },
+    instructorEmail: {
+        type: String,
+        required: true
+    },
+    numberOfLessons: {
+        type: Number,
+        default: 0
+    },
+    studentsEnrolled: [
         {
             studentId: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'users'
-              },
-              lessonNumber:{
-                type:Number
+            },
+            level: {
+                type: Number
             }
-        },
+        }
     ],
-    lessons:[
+    lessons: [
         {
             lessonTitle: {
                 type: String
             },
-            lessonContent:{
-                type:String
+            lessonContent: {
+                type: String
             },
-            lessonNumber:{
-                type:Number
-            }
+            lessonNumber: {
+                type: Number
+            },
+            quiz: [
+                {
+                    type: quizQuestionSchema,
+                    required: true
+                }
+            ],
         }
     ],
-    date:{
-		type: Date,
-		default: Date.now,
-	},
-})
-const Course=dbConnect.model('course',courseSchema);
-module.exports=Course;
+    date: {
+        type: Date,
+        default: Date.now,
+    }
+});
+
+const Course = mongoose.model('course', courseSchema);
+module.exports = Course;

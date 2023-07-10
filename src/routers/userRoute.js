@@ -7,7 +7,8 @@ const route = new express.Router()
 //register
 route.post("/signin", async (req, resp) => {
     try {
-        let user = new User(req.body.admin?{ ...req.body}:{ ...req.body }); //we are setting the req.body in the react fxn
+        let description="Hey! I'm "+req.body.name+", a"+req.body.userType+"."+ "contact me on\n"+req.body.email+'or by Phone number:'+req.body.number+'.'
+        let user = new User({...req.body,description}); //we are setting the req.body in the react fxn
         const existence = await User.findOne({ email: user.email })
         if (existence) {
             resp.send({ error: 'Email already existing' })
@@ -60,6 +61,20 @@ route.post('/login', async (req, res) => {
     }
 })
 
+route.get('/users',auth, async (req, res) => {
+    let users;
+    try {
+        if (req.query.email) {
+            users = await User.findOne({ email: req.query.email })
+        } else {
+            users = await User.find({}).sort({name:1})
+        }
+        await res.send(users)
+        console.log('users successfull!');
+    } catch (e) {
+        res.send({ error: e.message })
+    }
+})
 //profile
 route.post('/profile', auth, (req, res) => {
     try {
