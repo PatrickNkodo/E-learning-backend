@@ -18,7 +18,7 @@ const UserSchema = new dbConnect.Schema({
     },
     gender:{
         type:String,
-        // default:'Unknown'
+        default:'Male'
     },
     password:{
         type:String,
@@ -27,23 +27,24 @@ const UserSchema = new dbConnect.Schema({
     userType:{
         type:String,
         required:true,
+        default:'Student'
     },
     description:{
         type:String,
         default:'Hey there, im a user of Learners E-learning platform'
     },
-	date:{
-		type: Date,
-		default: Date.now,
-	},
     tokens: [
-		{
-			token: {
+        {
+            token: {
                 type:String,
                 required:true
             }
-		}
-	]
+        }
+    ],
+	date:{
+		type: Date,
+		default: Date.now,
+	}
 });
 
 UserSchema.virtual('userInfo', //person is the name provided to consider the virtual fxn at populate()

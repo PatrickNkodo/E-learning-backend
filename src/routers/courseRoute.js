@@ -1,6 +1,5 @@
 const express = require('express');
 const Course = require('../models/course-model');
-const {ObjectId}=require('mongodb')
 const auth = require('../middleware/auth');
 const route = new express.Router()
 
@@ -72,6 +71,7 @@ route.post('/addlesson', auth, async (req, res) => {
                     });
                     await course.save();
                     await res.send({ success: 'Lesson updated successfully' });
+                    console.log('update successful');
                     return
                 } else {
                     throw new Error("Exact Lesson title or content already exist in this same course")

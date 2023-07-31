@@ -1,5 +1,5 @@
+const dbConnect=require('../mongoose-connection');
 const mongoose = require('mongoose');
-
 const answerOptionSchema = new mongoose.Schema({
     answerText: {
         type: String,
@@ -21,7 +21,7 @@ const quizQuestionSchema = new mongoose.Schema({
     }
 });
 
-const courseSchema = new mongoose.Schema({
+const courseSchema = new dbConnect.Schema({
     title: {
         type: String,
         required: true

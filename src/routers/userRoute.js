@@ -63,14 +63,16 @@ route.post('/login', async (req, res) => {
 
 route.get('/users',auth, async (req, res) => {
     let users;
+    console.log(req.query.email);
     try {
         if (req.query.email) {
             users = await User.findOne({ email: req.query.email })
         } else {
             users = await User.find({}).sort({name:1})
         }
+        if(!users){throw new Error('No user found with this email')}
         await res.send(users)
-        console.log('users successfull!');
+        console.log('users successfull!',users);
     } catch (e) {
         res.send({ error: e.message })
     }
